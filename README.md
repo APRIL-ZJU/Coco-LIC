@@ -1,5 +1,9 @@
 # Coco-LIC
 
+*News📝: Occupied by so many tasks over the past few months😭, we now ultimately have time to clean up the code and the code will be released in April!*
+
+---
+
 Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
 
 ![factor-graph](figure/factor-graph.jpg) 
