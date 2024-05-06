@@ -56,7 +56,7 @@ cd ~/catkin_ws/src/Coco-LIC && mkdir data
 
   The estimated trajectory is saved in the folder `./src/Coco-LIC/data`.
 
-## Supplymentary1 - non-uniform verification
+## Supplementary1 - non-uniform verification
 
 1 control point per 0.1 seconds 🥊 adaptively placing control points per 0.1 seconds.
 
@@ -66,7 +66,7 @@ The different colors of the trajectory correspond to different densities of cont
 
  <img src="figure/color-traj.png" width="60%" height="60%" />
 
-## Supplymentary2 - comparison on NTU-VIRAL
+## Supplementary2 - comparison on NTU-VIRAL
 
 We additionally compare Coco-LIC with our previous work [CLIC](https://github.com/APRIL-ZJU/clic) on NTU-VIRAL dataset, employing 1 LiDAR. 
 
@@ -76,7 +76,7 @@ The best results are marked in bold. It can be seen that Coco-LIC stably outperf
 
 ## TODO List
 
-- [ ] serves as the front-end of incremental 3D Gaussian Splatting（[Gaussian-LIC](https://arxiv.org/pdf/2404.06926)）
+- [ ] serve as the front-end of incremental 3D Gaussian Splatting（[Gaussian-LIC](https://arxiv.org/pdf/2404.06926)）
 - [ ] optimize the code architecture (rosbag play mode) and support ikd-tree for acceleration
 
 ## Citation
