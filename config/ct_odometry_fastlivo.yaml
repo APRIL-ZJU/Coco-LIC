@@ -36,3 +36,8 @@ accelerometer_random_walk: 1.96e-06
 
 ### EvalutaionParams ###
 is_evo_viral: false 
+
+
+### Gaussian-LIC ###
+if_3dgs: true  # if sending data to back-end for incremental Gaussian mapping  
+lidar_skip: 10  # downsample: randomly select a LiDAR point every [lidar_skip] points

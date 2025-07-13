@@ -17,9 +17,9 @@ The following are three main characters of 🥥 Coco-LIC [[`Paper`](https://arxi
 ## Prerequisites
 
 + ROS（tested with noetic）
-+ Eigen 3.3.7
++ Eigen 3.3.7（comes with ROS）
 + Ceres 2.0.0
-+ OpenCV 4
++ OpenCV 4（comes with ROS）
 + PCL >= 1.13
 + [livox_ros_driver](https://github.com/Livox-SDK/livox_ros_driver)
 + yaml-cpp
@@ -57,11 +57,11 @@ cd ~/catkin_coco/src/Coco-LIC && mkdir data
 
 1 control point per 0.1 seconds 🥊 adaptively placing control points per 0.1 seconds.
 
-<img src="figure/uni-vs-nonuni.png" alt="uni-vs-nonuni" width="620"> 
+<img src="figure/uni-vs-nonuni.png" alt="uni-vs-nonuni" width="600"> 
 
 The different colors of the trajectory correspond to different densities of control points.
 
-<img src="figure/color-traj.png" alt="color-traj" width="620"> 
+<img src="figure/color-traj.png" alt="color-traj" width="600"> 
 
 ## Supplementary2 - comparison on NTU-VIRAL
 

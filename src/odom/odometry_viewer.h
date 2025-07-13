@@ -103,9 +103,9 @@ namespace cocolic
     ros::Publisher pub_sub_visual_map_;
     ros::Publisher pub_pg_cloud_;
 
-    ros::Publisher pub_keyframe_image_;
-    ros::Publisher pub_keyframe_pose_;
-    ros::Publisher pub_keyframe_points_;
+    ros::Publisher pub_gs_image_;
+    ros::Publisher pub_gs_pose_;
+    ros::Publisher pub_gs_points_;
 
     // Not used
     ros::Publisher pub_icp_target_cloud_;
@@ -185,11 +185,73 @@ namespace cocolic
       pub_sub_visual_map_ = nh.advertise<sensor_msgs::PointCloud2>("/sub_visual_map", 100);
       pub_pg_cloud_ = nh.advertise<sensor_msgs::PointCloud2>("/pg_global_cloud", 100);
 
-      pub_keyframe_image_ = nh.advertise<sensor_msgs::Image>("/keyframe_image", 1000);
-      pub_keyframe_pose_ = nh.advertise<geometry_msgs::PoseStamped>("/keyframe_pose", 1000);
-      pub_keyframe_points_ = nh.advertise<sensor_msgs::PointCloud2>("/keyframe_points", 1000);
+      pub_gs_image_ = nh.advertise<sensor_msgs::Image>("/image_for_gs", 1000);
+      pub_gs_pose_ = nh.advertise<geometry_msgs::PoseStamped>("/pose_for_gs", 1000);
+      pub_gs_points_ = nh.advertise<sensor_msgs::PointCloud2>("/points_for_gs", 1000);
 
       // std::cout << "[SetPublisher] init done.\n";
+    }
+
+    void Publish3DGSImage(const cv::Mat &img, int64_t img_time)
+    {
+      cv_bridge::CvImage cv_image;
+      ros::Time time_tool;
+      cv_image.header.stamp = time_tool.fromNSec(img_time);
+      cv_image.header.frame_id = "image_frame";
+      cv_image.encoding = sensor_msgs::image_encodings::BGR8; // 注意编码要匹配BGR+uint8
+      cv_image.image = img;
+
+      sensor_msgs::Image outout_msg;
+      cv_image.toImageMsg(outout_msg);
+      
+      pub_gs_image_.publish(outout_msg);
+    }
+
+    void Publish3DGSPose(Eigen::Quaterniond quat, Eigen::Vector3d pos, int64_t img_time)
+    {
+      geometry_msgs::PoseStamped output_msg;
+      output_msg.header.frame_id = "map";
+      ros::Time time_tool;
+      output_msg.header.stamp = time_tool.fromNSec(img_time);
+
+      output_msg.pose.position.x = pos.x();
+      output_msg.pose.position.y = pos.y();
+      output_msg.pose.position.z = pos.z();
+
+      output_msg.pose.orientation.x = quat.x();
+      output_msg.pose.orientation.y = quat.y();
+      output_msg.pose.orientation.z = quat.z();
+      output_msg.pose.orientation.w = quat.w();
+
+      pub_gs_pose_.publish(output_msg);
+    }
+
+    void Publish3DGSPoints(const Eigen::aligned_vector<Eigen::Vector3d>& new_points,
+                           const Eigen::aligned_vector<Eigen::Vector3i>& new_colors, int64_t img_time)
+    {
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+      for (int i = 0; i < new_points.size(); ++i)
+      {
+        pcl::PointXYZRGB point;
+        point.x = new_points[i].x();
+        point.y = new_points[i].y();
+        point.z = new_points[i].z();
+        point.r = new_colors[i].x(); 
+        point.g = new_colors[i].y();   
+        point.b = new_colors[i].z();   
+
+        cloud->points.push_back(point);
+      }
+      cloud->width = cloud->points.size();
+      cloud->height = 1;
+      cloud->is_dense = false;  //数据是否有无效点
+
+      sensor_msgs::PointCloud2 output_msg;
+      pcl::toROSMsg(*cloud, output_msg);
+      ros::Time time_tool;
+      output_msg.header.stamp = time_tool.fromNSec(img_time);
+      output_msg.header.frame_id = "map";
+      pub_gs_points_.publish(output_msg);
     }
 
     void PublishTrackImg(const sensor_msgs::ImagePtr &img)

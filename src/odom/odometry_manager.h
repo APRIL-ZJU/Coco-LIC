@@ -128,6 +128,8 @@ namespace cocolic
 
     void PublishCloudAndTrajectory();
 
+    void Publish3DGSMappingData(const NextMsgs& cur_msg);
+
   protected:
     OdometryMode odometry_mode_;
 
@@ -200,6 +202,13 @@ namespace cocolic
     Eigen::aligned_vector<Eigen::Vector2d> px_obss_;
 
     Eigen::Matrix3d K_;
+
+    bool if_3dgs_;
+    int lidar_skip_;
+
+    std::queue<int64_t> time_buf;  // img timestamp
+    std::queue<LiDARFeature> lidar_buf;  // lidarfeature in local
+    std::queue<cv::Mat> img_buf;  // undistorted
   };
 
 } // namespace cocolic

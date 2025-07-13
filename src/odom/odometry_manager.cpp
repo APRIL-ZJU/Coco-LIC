@@ -124,6 +124,10 @@ namespace cocolic
     is_evo_viral_ = node["is_evo_viral"].as<bool>();
     CreateCacheFolder(config_path, msg_manager_->bag_path_);
 
+    // gaussian-lic
+    if_3dgs_ = node["if_3dgs"].as<bool>();
+    lidar_skip_ = node["lidar_skip"].as<int>();
+
     std::cout << std::fixed << std::setprecision(4);
     // LOG(INFO) << std::fixed << std::setprecision(4);
   }
@@ -413,6 +417,12 @@ namespace cocolic
         out_msg.image = img_debug;
         odom_viewer_.PublishOldAndNewAddedPointsInCurImg(out_msg.toImageMsg());
       }
+    }
+
+    /// [new] for Gaussian-LIC
+    if (process_image && if_3dgs_)
+    {
+      Publish3DGSMappingData(msg);
     }
 
     /// [8] visualize tf in rviz
@@ -723,6 +733,106 @@ namespace cocolic
 
     odom_viewer_.PublishSplineTrajectory(
         trajectory_, 0.0, trajectory_->maxTimeNURBS(), 0.1);
+  }
+
+  void OdometryManager::Publish3DGSMappingData(const NextMsgs& msg)
+  {
+    time_buf.push(msg.image_timestamp);
+    lidar_buf.push(lidar_handler_->GetFeatureCurrent());
+    img_buf.push(camera_handler_->img_pose_->m_img);
+
+    while(1)
+    {
+      int64_t active_time = trajectory_->GetActiveTime();
+      if (time_buf.front() < active_time && lidar_buf.front().time_max < active_time)
+      {
+        auto time = time_buf.front();
+        auto lidar = lidar_buf.front();
+        auto img = img_buf.front();
+        time_buf.pop();
+        lidar_buf.pop();
+        img_buf.pop();
+
+        PosCloud::Ptr cloud_undistort_ds = PosCloud::Ptr(new PosCloud);
+        // PosCloud::Ptr cloud_distort_ds = lidar.surface_features;
+        PosCloud::Ptr cloud_distort_ds = lidar.full_cloud;
+        if (cloud_distort_ds->size() != 0)
+        {
+          trajectory_->UndistortScanInG(*cloud_distort_ds, lidar.timestamp, *cloud_undistort_ds);
+        }
+
+        // image
+        odom_viewer_.Publish3DGSImage(img, time + trajectory_->GetDataStartTime());
+
+        auto pose_cam = trajectory_->GetCameraPoseNURBS(time);
+        auto inv_pose_cam = pose_cam.inverse();
+        auto cam_K = camera_handler_->m_camera_intrinsic;
+        double fx = cam_K(0, 0), fy = cam_K(1, 1);
+        double cx = cam_K(0, 2), cy = cam_K(1, 2);
+        int H = camera_handler_->img_pose_->m_img.rows;
+        int W = camera_handler_->img_pose_->m_img.cols;
+
+        // pose
+        odom_viewer_.Publish3DGSPose(pose_cam.unit_quaternion(), pose_cam.translation(), time + trajectory_->GetDataStartTime());
+
+        // points
+        int filter_cnt = 0;
+        int skip = lidar_skip_;
+        Eigen::aligned_vector<Eigen::Vector3d> new_points;
+        Eigen::aligned_vector<Eigen::Vector3i> new_colors;
+        for (int i = 0; i < cloud_undistort_ds->points.size(); i += skip)
+        {
+          auto pt = cloud_undistort_ds->points[i];
+          Eigen::Vector3d pt_w = Eigen::Vector3d(pt.x, pt.y, pt.z);
+          Eigen::Vector3d pt_c = inv_pose_cam.unit_quaternion().toRotationMatrix() * pt_w + inv_pose_cam.translation();
+          if (pt_c(2) < 0.01) 
+          {
+            filter_cnt++;
+            continue;
+          }
+          pt_c /= pt_c(2);
+          double u = fx * pt_c(0) + cx;
+          double v = fy * pt_c(1) + cy;
+          if (u < 0 || u > W - 1) 
+          {
+            filter_cnt++;
+            continue;
+          }
+          new_points.push_back(Eigen::Vector3d(pt.x, pt.y, pt.z));
+
+          int i_u = std::round(u), i_v = std::round(v);
+          int blue = 0, green = 0, red = 0;
+          if (i_u >= 0 && i_u < W && i_v >= 0 && i_v < H)
+          {
+            int u0 = std::floor(u), v0 = std::floor(v);
+            int u1 = std::min(u0 + 1, W - 1), v1 = std::min(v0 + 1, H - 1);
+            double du = u - u0, dv = v - v0;
+
+            cv::Vec3b c00 = camera_handler_->img_pose_->m_img.at<cv::Vec3b>(v0, u0);
+            cv::Vec3b c10 = camera_handler_->img_pose_->m_img.at<cv::Vec3b>(v0, u1);
+            cv::Vec3b c01 = camera_handler_->img_pose_->m_img.at<cv::Vec3b>(v1, u0);
+            cv::Vec3b c11 = camera_handler_->img_pose_->m_img.at<cv::Vec3b>(v1, u1);
+
+            Eigen::Vector3d color00(c00[0], c00[1], c00[2]);
+            Eigen::Vector3d color10(c10[0], c10[1], c10[2]);
+            Eigen::Vector3d color01(c01[0], c01[1], c01[2]);
+            Eigen::Vector3d color11(c11[0], c11[1], c11[2]);
+
+            Eigen::Vector3d interpolated_color = 
+                (1 - du) * (1 - dv) * color00 + 
+                du * (1 - dv) * color10 + 
+                (1 - du) * dv * color01 + 
+                du * dv * color11;
+            blue = std::round(interpolated_color.x());
+            green = std::round(interpolated_color.y());
+            red = std::round(interpolated_color.z());
+          }
+          new_colors.push_back(Eigen::Vector3i(red, green, blue));
+        }
+        odom_viewer_.Publish3DGSPoints(new_points, new_colors, time + trajectory_->GetDataStartTime());
+      }
+      else break;
+    }
   }
 
   double OdometryManager::SaveOdometry()
