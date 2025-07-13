@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -180,9 +180,9 @@ namespace cocolic
 
     DownSampleCorrespondence();
 
-    LOG(INFO) << "point correspondence : " << point_correspondence_.size()
-              << "; point correspondence_ds : "
-              << point_correspondence_ds_.size();
+    // LOG(INFO) << "point correspondence : " << point_correspondence_.size()
+    //           << "; point correspondence_ds : "
+    //           << point_correspondence_ds_.size();
   }
 
   bool LidarHandler::UpdateKeyFrames()
@@ -297,7 +297,7 @@ namespace cocolic
     // 
     if (cloud_key_pos_->points.empty())
     {
-      LOG(INFO) << "[first_lidar time_max] " << time * NS_TO_S;
+      // LOG(INFO) << "[first_lidar time_max] " << time * NS_TO_S;
       return true;
     }
 
@@ -438,7 +438,7 @@ namespace cocolic
     PosCloud::Ptr key_pos_selected(new PosCloud);
     GetNearDistKeyScanID(key_pos_selected);
     GetNearTimeKeyScanID(key_pos_selected, cur_time);
-    LOG(INFO) << "[keysize] " << key_pos_selected->points.size();
+    // LOG(INFO) << "[keysize] " << key_pos_selected->points.size();
 
     int64_t target_time = cloud_key_pos_->back().timestamp; // 
     feature_map_.Clear();
@@ -503,12 +503,12 @@ namespace cocolic
       DownsampleLiDARFeature(feature_map_, feature_map_ds_);
     }
 
-    LOG(INFO) << "[feature_map_ds] "
-              << "surface cloud map : "
-              << feature_map_ds_.surface_features->size()
-              << "; cornor cloud map: " << feature_map_ds_.corner_features->size()
-              << "; feature map time : [" << feature_map_ds_.timestamp << ", "
-              << feature_map_ds_.time_max << "].";
+    // LOG(INFO) << "[feature_map_ds] "
+    //           << "surface cloud map : "
+    //           << feature_map_ds_.surface_features->size()
+    //           << "; cornor cloud map: " << feature_map_ds_.corner_features->size()
+    //           << "; feature map time : [" << feature_map_ds_.timestamp << ", "
+    //           << feature_map_ds_.time_max << "].";
 
     SetTargetMap(feature_map_ds_);
   }
@@ -535,15 +535,15 @@ namespace cocolic
          lf_cur.corner_features->size() < size_t(edge_min_valid_num_)) &&
         lf_cur.surface_features->size() < size_t(surf_min_valid_num_))
     {
-      LOG(WARNING) << "[FindCorrespondence] No enough feature points ! Corner: "
-                   << lf_cur.corner_features->size()
-                   << "; Surface: " << lf_cur.surface_features->size();
+      // LOG(WARNING) << "[FindCorrespondence] No enough feature points ! Corner: "
+      //              << lf_cur.corner_features->size()
+      //              << "; Surface: " << lf_cur.surface_features->size();
       return false;
     }
 
     /// 
     size_t corner_step = lf_cur.corner_features->size() / 1500 + 1;
-    LOG(INFO) << "[corner_step] " << corner_step;
+    // LOG(INFO) << "[corner_step] " << corner_step;
     if (use_corner_feature_ && feature_map_ds_.corner_features->size() > 10)
     {
       for (size_t i = 0; i < lf_cur.corner_features->size(); i += corner_step)
@@ -672,7 +672,7 @@ namespace cocolic
     /// 
     map_corrs_viewer.clear();
     size_t surf_step = lf_cur.surface_features->size() / 1500 + 1;
-    LOG(INFO) << "[surf_step] " << surf_step;
+    // LOG(INFO) << "[surf_step] " << surf_step;
     for (size_t i = 0; i < lf_cur.surface_features->size(); i += surf_step)
     {
       if (lf_cur.surface_features->points[i].timestamp < 0)
@@ -772,9 +772,9 @@ namespace cocolic
     }
 
     int surf_feature_num = point_correspondence_.size() - corner_feature_num;
-    LOG(INFO) << "point correspondence: " << point_correspondence_.size()
-              << "; corner/surfel " << corner_feature_num << "/"
-              << surf_feature_num;
+    // LOG(INFO) << "point correspondence: " << point_correspondence_.size()
+    //           << "; corner/surfel " << corner_feature_num << "/"
+    //           << surf_feature_num;
     return true;
   }
 

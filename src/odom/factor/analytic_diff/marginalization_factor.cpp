@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -108,7 +108,7 @@ void MarginalizationInfo::preMarginalize() {
 
     if (it->residual_type == RType_Image) {
       if (it->residuals.norm() > 1.5) {
-        LOG(INFO) << "image: " << it->residuals.transpose();
+        // LOG(INFO) << "image: " << it->residuals.transpose();
       }
     }
 
@@ -217,7 +217,7 @@ bool MarginalizationInfo::marginalize() {
     threadsstruct[i].parameter_block_idx = parameter_block_idx;
     int ret = pthread_create(&tids[i], NULL, ThreadsConstructA, (void *)&(threadsstruct[i])); 
     if (ret != 0) {
-      LOG(WARNING) << "pthread_create error";
+      // LOG(WARNING) << "pthread_create error";
       break;
     }
   }
@@ -259,7 +259,7 @@ bool MarginalizationInfo::marginalize() {
     // ss << std::setprecision(15) << Amm_S.transpose();
     ss << std::setprecision(2) << Amm_S.transpose();
   }
-  LOG(INFO) << "Amm_S cnt: " << cnt[0] << "/" << cnt[1] << "; n/m " << n << "/" << m << "; " << ss.str();
+  // LOG(INFO) << "Amm_S cnt: " << cnt[0] << "/" << cnt[1] << "; n/m " << n << "/" << m << "; " << ss.str();
  #endif
 
   Eigen::VectorXd bmm = b.segment(0, m);
@@ -287,13 +287,13 @@ bool MarginalizationInfo::marginalize() {
   linearized_residuals = S_inv_sqrt.asDiagonal() * saes2.eigenvectors().transpose() * b;
   
   time[4] = timer.toc();
-  LOG(INFO) << "marginalize costs " 
-            << time[0] << "/" 
-            << time[1] - time[0] << "/" 
-            << time[2] - time[1] << "/" 
-            << time[3] - time[2] << "/"
-            << time[4] - time[3] << " = " 
-            << time[4] << " ms.";
+  // LOG(INFO) << "marginalize costs " 
+  //           << time[0] << "/" 
+  //           << time[1] - time[0] << "/" 
+  //           << time[2] - time[1] << "/" 
+  //           << time[3] - time[2] << "/"
+  //           << time[4] - time[3] << " = " 
+  //           << time[4] << " ms.";
 
   return true;
 }

@@ -1356,8 +1356,8 @@ void R3LIVE::UpdateVisualSubMap(const cv::Mat& img_in, double img_time, const Ei
         Eigen::aligned_vector<Eigen::Vector3d> fake_points;
         Eigen::aligned_vector<Eigen::Vector2d> fake_pixs;
         m_map_rgb_pts.selection_points_for_projection( false, fake_points, fake_pixs, img_pose_, &rgb_pts_vec, &pts_2d_vec, m_track_windows_size / 2 );  //40 / 2 = 20
-        LOG(INFO) << "[handle first img time] " << img_time;
-        LOG(INFO) << "[first_rgb_pts_vec size] " << rgb_pts_vec.size();
+        // LOG(INFO) << "[handle first img time] " << img_time;
+        // LOG(INFO) << "[first_rgb_pts_vec size] " << rgb_pts_vec.size();
         if (rgb_pts_vec.size() >= 10)
         {
             handle_first_img_done_ = true;
@@ -1380,7 +1380,7 @@ void R3LIVE::UpdateVisualSubMap(const cv::Mat& img_in, double img_time, const Ei
     // LOG(INFO) << "[inlier after pnp] " << op_track.m_current_tracked_pts.size();
     op_track.inlier_aft_pnp = op_track.m_last_tracked_pts.size();
 
-    LOG(INFO) << "[inlieraft track | fmat | pnp] " << op_track.inlier_aft_track << " " << op_track.inlier_aft_fmat << " " << op_track.inlier_aft_pnp;
+    // LOG(INFO) << "[inlieraft track | fmat | pnp] " << op_track.inlier_aft_track << " " << op_track.inlier_aft_fmat << " " << op_track.inlier_aft_pnp;
     op_track.last_img = img_pose_->m_img_gray.clone();
 }
 
@@ -1393,8 +1393,8 @@ void R3LIVE::AssociateNewPointsToCurrentImg(const Eigen::Quaterniond& q_wc, cons
     // img_pose_->set_pose(q_wc.inverse(), - q_wc.toRotationMatrix().inverse() * t_wc);
     img_pose_->set_pose(q_wc, t_wc);  //Twc
     img_pose_->m_fov_margin = -0.4;
-    LOG(INFO) << "[m_map_rgb_pts_in_last_frame_pos size before] " << op_track.m_map_rgb_pts_in_last_frame_pos.size();
+    // LOG(INFO) << "[m_map_rgb_pts_in_last_frame_pos size before] " << op_track.m_map_rgb_pts_in_last_frame_pos.size();
     op_track.update_and_append_track_pts( img_pose_, m_map_rgb_pts, m_track_windows_size / 2, 1000000 );
 
-    LOG(INFO) << "[m_map_rgb_pts_in_last_frame_pos size after] " << op_track.m_map_rgb_pts_in_last_frame_pos.size();
+    // LOG(INFO) << "[m_map_rgb_pts_in_last_frame_pos size after] " << op_track.m_map_rgb_pts_in_last_frame_pos.size();
 }

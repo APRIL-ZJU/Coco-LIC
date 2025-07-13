@@ -666,7 +666,7 @@ class Se3Spline {
     Eigen::Matrix4d blending_mat = Eigen::Matrix4d::Zero();
     
     int cur_idx = knts.size() - 1 - offset;
-    LOG(INFO) << "[cur_idx] " << cur_idx;
+    // LOG(INFO) << "[cur_idx] " << cur_idx;
     double ti = knts[cur_idx] * NS_TO_S;
     double ti_minus_2 = knts[cur_idx - 2] * NS_TO_S;
     double ti_minus_1 = knts[cur_idx - 1] * NS_TO_S;

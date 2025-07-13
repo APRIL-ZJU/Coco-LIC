@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,11 +37,11 @@ void ImuStateEstimator::FeedIMUData(const IMUData& imu_data) {
 void ImuStateEstimator::Propagate(const IMUState& imu_state,
                                   double from_timestamp, double to_timestamp) {
   if (imu_data_.empty()) {
-    LOG(WARNING) << " no imu data !";
+    // LOG(WARNING) << " no imu data !";
   }
   if (imu_data_.front().timestamp > to_timestamp) {
-    LOG(WARNING) << " input time too small." << to_timestamp << "|"
-                 << imu_data_.front().timestamp;
+    // LOG(WARNING) << " input time too small." << to_timestamp << "|"
+    //              << imu_data_.front().timestamp;
   }
 
   Eigen::aligned_vector<IMUData> imu_cache;
@@ -58,7 +58,7 @@ void ImuStateEstimator::Propagate(const IMUState& imu_state,
   }
 
   if (imu_cache.size() < 1) {
-    LOG(INFO) << "IMU cache size : " << imu_cache.size();
+    // LOG(INFO) << "IMU cache size : " << imu_cache.size();
     return;
   }
 
@@ -109,12 +109,12 @@ void ImuStateEstimator::Propagate(const IMUState& imu_state,
   propagate_start_state_ = imu_state;
   propagate_start_state_.timestamp = imu_cache.front().timestamp;
 
-  LOG(INFO) << "[IMU Propagate] desire time [" << from_timestamp << ", "
-            << to_timestamp << "]; actual time [" << imu_cache.front().timestamp
-            << ", " << imu_cache.back().timestamp << "]";
-  LOG(INFO) << "[IMU Propagate] start pose: "
-            << VectorToString(propagate_start_state_.p)
-            << "; end pose: " << VectorToString(latest_state_.p);
+  // LOG(INFO) << "[IMU Propagate] desire time [" << from_timestamp << ", "
+  //           << to_timestamp << "]; actual time [" << imu_cache.front().timestamp
+  //           << ", " << imu_cache.back().timestamp << "]";
+  // LOG(INFO) << "[IMU Propagate] start pose: "
+  //           << VectorToString(propagate_start_state_.p)
+  //           << "; end pose: " << VectorToString(latest_state_.p);
 
   UpdateMotionState(imu_state, imu_cache);
 }

@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,7 @@ namespace cocolic
     CreateCacheFolder(config_path, msg_manager_->bag_path_);
 
     std::cout << std::fixed << std::setprecision(4);
-    LOG(INFO) << std::fixed << std::setprecision(4);
+    // LOG(INFO) << std::fixed << std::setprecision(4);
   }
 
   bool OdometryManager::CreateCacheFolder(const std::string &config_path,
@@ -243,7 +243,7 @@ namespace cocolic
     msg_manager_->LogInfo();
     if (msg_manager_->cur_msgs.lidar_timestamp < 0)
     {
-      LOG(INFO) << "CANT SolveLICO!";
+      // LOG(INFO) << "CANT SolveLICO!";
     }
 
     // lic optimization
@@ -267,14 +267,14 @@ namespace cocolic
     bool process_image = msg.if_have_image && msg.image_timestamp > t_begin_add_cam_;
     if (process_image)
     {
-      LOG(INFO) << "Process " << msg.scan_num << " scans in ["
-                << msg.lidar_timestamp * NS_TO_S << ", " << msg.lidar_max_timestamp * NS_TO_S << "]"
-                << "; image_time: " << msg.image_timestamp * NS_TO_S;
+      // LOG(INFO) << "Process " << msg.scan_num << " scans in ["
+      //           << msg.lidar_timestamp * NS_TO_S << ", " << msg.lidar_max_timestamp * NS_TO_S << "]"
+      //           << "; image_time: " << msg.image_timestamp * NS_TO_S;
     }
     else
     {
-      LOG(INFO) << "Process " << msg.scan_num << " scans in ["
-                << msg.lidar_timestamp * NS_TO_S << ", " << msg.lidar_max_timestamp * NS_TO_S << "]";
+      // LOG(INFO) << "Process " << msg.scan_num << " scans in ["
+      //           << msg.lidar_timestamp * NS_TO_S << ", " << msg.lidar_max_timestamp * NS_TO_S << "]";
     }
 
     /// [1] transform the format of lidar pointcloud -> feature_cur_、feature_cur_ds_
@@ -521,18 +521,18 @@ namespace cocolic
       }
       var_r = sqrt(var_r / (cnt - 1));
       var_a = sqrt(var_a / (cnt - 1));
-      LOG(INFO) << "[aver_r_first] " << aver_r.norm() << " | [aver_a_first] " << aver_a.norm();
-      LOG(INFO) << "[var_r_first] " << var_r << " | [var_a_first] " << var_a;
+      // LOG(INFO) << "[aver_r_first] " << aver_r.norm() << " | [aver_a_first] " << aver_a.norm();
+      // LOG(INFO) << "[var_r_first] " << var_r << " | [var_a_first] " << var_a;
 
       if (non_uniform_)
       {
         cp_add_num = GetKnotDensity(aver_r.norm(), aver_a.norm());
       }
-      LOG(INFO) << "[cp_add_num_first] " << cp_add_num;
+      // LOG(INFO) << "[cp_add_num_first] " << cp_add_num;
       cp_num_vec.push_back(cp_add_num);
 
       int64_t step = (traj_max_time_ns_cur - trajectory_->maxTimeNsNURBS()) / cp_add_num;
-      LOG(INFO) << "[extend_step_first] " << step;
+      // LOG(INFO) << "[extend_step_first] " << step;
       for (int i = 0; i < cp_add_num - 1; i++)
       {
         int64_t time = trajectory_->maxTimeNsNURBS() + step * (i + 1);
@@ -570,18 +570,18 @@ namespace cocolic
       }
       var_r = sqrt(var_r / (cnt - 1));
       var_a = sqrt(var_a / (cnt - 1));
-      LOG(INFO) << "[aver_r_second] " << aver_r.norm() << " | [aver_a_second] " << aver_a.norm();
-      LOG(INFO) << "[var_r_second] " << var_r << " | [var_a_second] " << var_a;
+      // LOG(INFO) << "[aver_r_second] " << aver_r.norm() << " | [aver_a_second] " << aver_a.norm();
+      // LOG(INFO) << "[var_r_second] " << var_r << " | [var_a_second] " << var_a;
 
       if (non_uniform_)
       {
         cp_add_num = GetKnotDensity(aver_r.norm(), aver_a.norm());
       }
-      LOG(INFO) << "[cp_add_num_second] " << cp_add_num;
+      // LOG(INFO) << "[cp_add_num_second] " << cp_add_num;
       cp_num_vec.push_back(cp_add_num);
 
       int64_t step = (traj_max_time_ns_next - traj_max_time_ns_cur) / cp_add_num;
-      LOG(INFO) << "[extend_step_second] " << step;
+      // LOG(INFO) << "[extend_step_second] " << step;
       for (int i = 0; i < cp_add_num - 1; i++)
       {
         int64_t time = traj_max_time_ns_cur + step * (i + 1);
@@ -669,18 +669,18 @@ namespace cocolic
       }
       var_r = sqrt(var_r / (cnt - 1));
       var_a = sqrt(var_a / (cnt - 1));
-      LOG(INFO) << "[aver_r_new] " << aver_r.norm() << " | [aver_a_new] " << aver_a.norm();
-      LOG(INFO) << "[var_r_new] " << var_r << " | [var_a_new] " << var_a;
+      // LOG(INFO) << "[aver_r_new] " << aver_r.norm() << " | [aver_a_new] " << aver_a.norm();
+      // LOG(INFO) << "[var_r_new] " << var_r << " | [var_a_new] " << var_a;
 
       if (non_uniform_)
       {
         cp_add_num = GetKnotDensity(aver_r.norm(), aver_a.norm());
       }
-      LOG(INFO) << "[cp_add_num_new] " << cp_add_num;
+      // LOG(INFO) << "[cp_add_num_new] " << cp_add_num;
       cp_num_vec.push_back(cp_add_num);
 
       int64_t step = (traj_max_time_ns_next_next - traj_max_time_ns_next) / cp_add_num;
-      LOG(INFO) << "[extend_step_new] " << step;
+      // LOG(INFO) << "[extend_step_new] " << step;
       for (int i = 0; i < cp_add_num - 1; i++)
       {
         int64_t time = traj_max_time_ns_next + step * (i + 1);

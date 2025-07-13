@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,12 +65,12 @@ bool IMUInitializer::ActiveInitialIMUState() {
     imu_state_.bias.gyro_bias = Eigen::Vector3d::Zero();
     imu_state_.g = gravity_;  // gw
 
-    LOG(INFO) << "[InertialInitializer] ActiveInitialIMUState"
-              << "first imu time: " << imu_datas_.front().timestamp
-              << "\nimu_datas_: " << imu_datas_.size()
-              << "\nAccel bias : " << imu_state_.bias.accel_bias.transpose()
-              << "\nGyro bias : " << imu_state_.bias.gyro_bias.transpose()
-              << "\ngravity in I0: " << g_inI0.transpose();
+    // LOG(INFO) << "[InertialInitializer] ActiveInitialIMUState"
+    //           << "first imu time: " << imu_datas_.front().timestamp
+    //           << "\nimu_datas_: " << imu_datas_.size()
+    //           << "\nAccel bias : " << imu_state_.bias.accel_bias.transpose()
+    //           << "\nGyro bias : " << imu_state_.bias.gyro_bias.transpose()
+    //           << "\ngravity in I0: " << g_inI0.transpose();
 
     initial_done_ = true;
     return true;
@@ -108,7 +108,7 @@ bool IMUInitializer::StaticInitialIMUState() {
   accel_var = std::sqrt(accel_var / ((int)imu_cache.size() - 1));
 
   if (accel_var >= imu_excite_threshold_) {
-    LOG(WARNING) << "[IMUInitializer] Dont Move !";
+    // LOG(WARNING) << "[IMUInitializer] Dont Move !";
     return false;
   }
 
@@ -137,12 +137,12 @@ bool IMUInitializer::StaticInitialIMUState() {
   imu_state_.bias.gyro_bias = gyro_avg;
   imu_state_.g = gravity_;  // gw
 
-  LOG(INFO) << "[InertialInitializer] " << "first imu time : " << imu_datas_.front().timestamp * 1e-9;
-  LOG(INFO) << "[InertialInitializer] " << "imu_datas_ : " << imu_datas_.size();
-  LOG(INFO) << "[InertialInitializer] " << "imu_cache : " << imu_datas_.size();
-  LOG(INFO) << "[InertialInitializer] " << "Accel bias : " << imu_state_.bias.accel_bias.transpose();
-  LOG(INFO) << "[InertialInitializer] " << "Gyro bias : " << imu_state_.bias.gyro_bias.transpose();
-  LOG(INFO) << "[InertialInitializer] " << "gravity in I0 : " << g_inI0.transpose();
+  // LOG(INFO) << "[InertialInitializer] " << "first imu time : " << imu_datas_.front().timestamp * 1e-9;
+  // LOG(INFO) << "[InertialInitializer] " << "imu_datas_ : " << imu_datas_.size();
+  // LOG(INFO) << "[InertialInitializer] " << "imu_cache : " << imu_datas_.size();
+  // LOG(INFO) << "[InertialInitializer] " << "Accel bias : " << imu_state_.bias.accel_bias.transpose();
+  // LOG(INFO) << "[InertialInitializer] " << "Gyro bias : " << imu_state_.bias.gyro_bias.transpose();
+  // LOG(INFO) << "[InertialInitializer] " << "gravity in I0 : " << g_inI0.transpose();
   // std::cout << MAGENTA << "[Rwb0]\n" << R_I0toG << RESET << std::endl;
 
   initial_done_ = true;

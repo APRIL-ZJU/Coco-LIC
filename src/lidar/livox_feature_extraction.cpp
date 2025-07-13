@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,8 +106,8 @@ namespace cocolic
 
     if (in_cloud_vec[0]->size() <= 7)
     {
-      LOG(WARNING) << "[ParsePointCloud] input cloud size too small "
-                   << in_cloud_vec[0]->size();
+      // LOG(WARNING) << "[ParsePointCloud] input cloud size too small "
+      //              << in_cloud_vec[0]->size();
       return false;
     }
 
@@ -197,8 +197,8 @@ namespace cocolic
     }
     if (in_cloud_vec[0]->size() <= 7)
     {
-      LOG(WARNING) << "[ParsePointCloud] input cloud size too small "
-                   << in_cloud_vec[0]->size();
+      // LOG(WARNING) << "[ParsePointCloud] input cloud size too small "
+      //              << in_cloud_vec[0]->size();
       return false;
     }
 

@@ -44,10 +44,9 @@ cd ~/catkin_ws/src/Coco-LIC && mkdir data
 
 + Configure parameters in the `config/ct_odometry_xxx.yaml` file.
 
-  - `log_path`: the path to log
   - `config_path`: the path of `config` folder 
   - `bag_path`: the file path of rosbag  
-
+  
 + Run on R3LIVE dataset for example.
 
   ```shell
@@ -73,11 +72,6 @@ We additionally compare Coco-LIC with our previous work [CLIC](https://github.co
 The best results are marked in bold. It can be seen that Coco-LIC stably outperforms CLIC.
 
 <img src="figure/cocovsclic.png" width="60%" height="60%" /> 
-
-## TODO List
-
-- [ ] serve as the front-end of incremental 3D Gaussian Splatting（[Gaussian-LIC](https://arxiv.org/pdf/2404.06926)）
-- [ ] optimize the code architecture (rosbag play mode) and support ikd-tree for acceleration
 
 ## Citation
 

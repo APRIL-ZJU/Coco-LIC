@@ -464,7 +464,7 @@ int Global_map::my_append_points_to_global_map(PosCloud &pc_in, double  added_ti
     }
     // m_mutex_m_box_recent_hitted->unlock();
 
-    LOG(INFO) << "[m_voxels_recent_visited size] " << m_voxels_recent_visited.size();
+    // LOG(INFO) << "[m_voxels_recent_visited size] " << m_voxels_recent_visited.size();
     return (m_voxels_recent_visited.size() -  number_of_voxels_before_add);
 }
 

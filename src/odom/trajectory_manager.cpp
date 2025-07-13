@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -105,7 +105,7 @@ namespace cocolic
     {
       trajectory_->setKnotSO3(R0, i);
     }
-    LOG(INFO) << "[debug numKnots] " << trajectory_->numKnots(); // 4
+    // LOG(INFO) << "[debug numKnots] " << trajectory_->numKnots(); // 4
 
     tparam_.last_bias_time = trajectory_->maxTimeNsNURBS();
     tparam_.cur_bias_time = trajectory_->maxTimeNsNURBS();
@@ -220,7 +220,7 @@ namespace cocolic
   {
     if (imu_data_.empty() || imu_data_.size() == 1)
     {
-      LOG(ERROR) << "[AppendWithIMUData] IMU data empty! ";
+      // LOG(ERROR) << "[AppendWithIMUData] IMU data empty! ";
       return;
     }
 
@@ -257,13 +257,13 @@ namespace cocolic
     }
     ////// color control point for visualization
 
-    LOG(INFO) << "[max_time_ns] " << opt_max_t_ns;
-    LOG(INFO) << "[numKnots aft extension] " << trajectory_->numKnots();
+    // LOG(INFO) << "[max_time_ns] " << opt_max_t_ns;
+    // LOG(INFO) << "[numKnots aft extension] " << trajectory_->numKnots();
 
     tparam_.last_bias_time = tparam_.cur_bias_time;  // opt_min_t_ns
     tparam_.cur_bias_time = opt_max_t_ns;
-    LOG(INFO) << "[last_bias_time] " << tparam_.last_bias_time << " "
-              << "[cur_bias_time] " << tparam_.cur_bias_time;
+    // LOG(INFO) << "[last_bias_time] " << tparam_.last_bias_time << " "
+    //           << "[cur_bias_time] " << tparam_.cur_bias_time;
     tparam_.UpdateCurScan(scan_time_min, scan_time_max);
     UpdateIMUInlio();  // determine the imu data involved in this optimization
 
@@ -309,10 +309,10 @@ namespace cocolic
     ceres::Solver::Summary summary = estimator->Solve(50, false);
     static int init_cnt = 0;
     init_cnt++;
-    LOG(INFO) << init_cnt << " TrajInitSolver " << summary.BriefReport();
-    LOG(INFO) << init_cnt << " TrajInit Successful/Unsuccessful steps: "
-              << summary.num_successful_steps << "/"
-              << summary.num_unsuccessful_steps;
+    // LOG(INFO) << init_cnt << " TrajInitSolver " << summary.BriefReport();
+    // LOG(INFO) << init_cnt << " TrajInit Successful/Unsuccessful steps: "
+    //           << summary.num_successful_steps << "/"
+    //           << summary.num_unsuccessful_steps;
   }
 
   bool TrajectoryManager::UpdateTrajectoryWithLIC(
@@ -324,14 +324,14 @@ namespace cocolic
   {
     if (point_corrs.empty() || imu_data_.empty() || imu_data_.size() == 1)
     {
-      LOG(WARNING) << " input empty data " << point_corrs.size() << ", "
-                   << imu_data_.size();
+      // LOG(WARNING) << " input empty data " << point_corrs.size() << ", "
+      //              << imu_data_.size();
       return false;
     }
 
-    LOG(INFO) << "[point_corrs size] " << point_corrs.size();
-    LOG(INFO) << "[opt_domain]: "
-              << "[" << opt_min_t_ns * NS_TO_S << ", " << opt_max_t_ns * NS_TO_S << ")";
+    // LOG(INFO) << "[point_corrs size] " << point_corrs.size();
+    // LOG(INFO) << "[opt_domain]: "
+    //           << "[" << opt_min_t_ns * NS_TO_S << ", " << opt_max_t_ns * NS_TO_S << ")";
 
     IMUBias last_bias = all_imu_bias_.rbegin()->second;
     all_imu_bias_[tparam_.cur_bias_time] = last_bias;
@@ -456,21 +456,21 @@ namespace cocolic
     static int loam_cnt = 0;
     ceres::Solver::Summary summary = estimator->Solve(iteration, false);
     double opt_time = t_opt.toc();
-    LOG(INFO) << "[t_opt] " << opt_time << std::endl;
-    LOG(INFO) << "LoamSolver " << summary.BriefReport();
-    LOG(INFO) << ++loam_cnt << " UpdateLio Successful/Unsuccessful steps: "
-              << summary.num_successful_steps << "/"
-              << summary.num_unsuccessful_steps;
+    // LOG(INFO) << "[t_opt] " << opt_time << std::endl;
+    // LOG(INFO) << "LoamSolver " << summary.BriefReport();
+    // LOG(INFO) << ++loam_cnt << " UpdateLio Successful/Unsuccessful steps: "
+    //           << summary.num_successful_steps << "/"
+    //           << summary.num_unsuccessful_steps;
 
     opt_cnt++;
     t_opt_sum += opt_time;
 
-    LOG(INFO) << "[gyro_bias_new] " << all_imu_bias_.rbegin()->second.gyro_bias.x() << " "
-              << all_imu_bias_.rbegin()->second.gyro_bias.y() << " "
-              << all_imu_bias_.rbegin()->second.gyro_bias.z();
-    LOG(INFO) << "[acce_bias_new] " << all_imu_bias_.rbegin()->second.accel_bias.x() << " "
-              << all_imu_bias_.rbegin()->second.accel_bias.y() << " "
-              << all_imu_bias_.rbegin()->second.accel_bias.z();
+    // LOG(INFO) << "[gyro_bias_new] " << all_imu_bias_.rbegin()->second.gyro_bias.x() << " "
+    //           << all_imu_bias_.rbegin()->second.gyro_bias.y() << " "
+    //           << all_imu_bias_.rbegin()->second.gyro_bias.z();
+    // LOG(INFO) << "[acce_bias_new] " << all_imu_bias_.rbegin()->second.accel_bias.x() << " "
+    //           << all_imu_bias_.rbegin()->second.accel_bias.y() << " "
+    //           << all_imu_bias_.rbegin()->second.accel_bias.z();
 
     return true;
   }

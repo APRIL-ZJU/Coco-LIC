@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -114,9 +114,9 @@ struct ExtrinsicParam {
   // node["Extrinsics"]
   void Init(const YAML::Node& node) {
     if (!(node["time_offset"] && node["Trans"] && node["Rot"])) {
-      LOG(WARNING)
-          << "[ExtrinsicParam::Init] input yaml node has not parameters "
-             "of Extrinsics struct. Return without Initialziation.";
+      // LOG(WARNING)
+      //     << "[ExtrinsicParam::Init] input yaml node has not parameters "
+      //        "of Extrinsics struct. Return without Initialziation.";
       return;
     }
 

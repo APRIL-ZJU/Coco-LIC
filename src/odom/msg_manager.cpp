@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -165,8 +165,8 @@ namespace cocolic
 
     std::cout << "\n🍺 LoadBag " << bag_path_ << " start at " << bag_start
               << " with duration " << (time_finish - time_start).toSec() << ".\n";
-    LOG(INFO) << "LoadBag " << bag_path_ << " start at " << bag_start
-              << " with duration " << (time_finish - time_start).toSec();
+    // LOG(INFO) << "LoadBag " << bag_path_ << " start at " << bag_start
+    //           << " with duration " << (time_finish - time_start).toSec();
   }
 
   void MsgManager::SpinBagOnce()
@@ -175,7 +175,7 @@ namespace cocolic
     if (view_iterator == view_.end())
     {
       has_valid_msg_ = false;
-      LOG(INFO) << "End of bag";
+      // LOG(INFO) << "End of bag";
       return;
     }
 
@@ -236,8 +236,8 @@ namespace cocolic
     m_size[0] = imu_buf_.size();
     m_size[1] = lidar_buf_.size();
     // if (use_image_) m_size[2] = feature_tracker_node_->NumImageMsg();
-    LOG(INFO) << "imu/lidar/image msg left: " << m_size[0] << "/" << m_size[1]
-              << "/" << m_size[2];
+    // LOG(INFO) << "imu/lidar/image msg left: " << m_size[0] << "/" << m_size[1]
+    //           << "/" << m_size[2];
   }
 
   void MsgManager::RemoveBeginData(int64_t start_time, // not used
@@ -296,8 +296,8 @@ namespace cocolic
   bool MsgManager::HasEnvMsg() const
   {
     int env_msg = lidar_buf_.size();
-    if (cur_imu_timestamp_ < 0 && env_msg > 100)
-      LOG(WARNING) << "No IMU data. CHECK imu topic" << imu_topic_;
+    // if (cur_imu_timestamp_ < 0 && env_msg > 100)
+    //   LOG(WARNING) << "No IMU data. CHECK imu topic" << imu_topic_;
 
     return env_msg > 0;
   }
@@ -510,7 +510,7 @@ namespace cocolic
         ++it; // 
       }
     }
-    LOG(INFO) << "[msgs_scan_num] " << msgs.scan_num;
+    // LOG(INFO) << "[msgs_scan_num] " << msgs.scan_num;
 
     /// 3 
     if (use_image_)

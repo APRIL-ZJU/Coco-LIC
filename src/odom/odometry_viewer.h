@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -374,8 +374,8 @@ namespace cocolic
       {
         if (cor.t_map < 0.0 || cor.t_point < 0.0)
         {
-          LOG(INFO) << "[PublishLoamCorrespondence] skip " << cor.t_map << "; "
-                    << cor.t_point;
+          // LOG(INFO) << "[PublishLoamCorrespondence] skip " << cor.t_map << "; "
+          //           << cor.t_point;
           continue;
         }
 
@@ -766,8 +766,8 @@ namespace cocolic
         if (cor.t_map < trajectory->minTime(LiDARSensor) ||
             cor.t_point < trajectory->minTime(LiDARSensor))
         {
-          LOG(INFO) << "[PublishLoamCorrespondence] skip " << cor.t_map << "; "
-                    << cor.t_point;
+          // LOG(INFO) << "[PublishLoamCorrespondence] skip " << cor.t_map << "; "
+          //           << cor.t_point;
           continue;
         }
 
@@ -789,8 +789,8 @@ namespace cocolic
         }
       }
 
-      LOG(INFO) << "[Corner] Error : " << corner_error / corner_cnt;
-      LOG(INFO) << "[Surface] Error : " << surface_error / surface_cnt;
+      // LOG(INFO) << "[Corner] Error : " << corner_error / corner_cnt;
+      // LOG(INFO) << "[Surface] Error : " << surface_error / surface_cnt;
     }
   };
 } // namespace cocolic

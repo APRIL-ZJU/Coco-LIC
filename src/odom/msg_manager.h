@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,7 +91,7 @@ namespace cocolic
       max_time[0] = pcl::GetCloudMaxTimeNs(lidar_surf_cloud) * NS_TO_S;
       max_time[1] = pcl::GetCloudMaxTimeNs(lidar_corner_cloud) * NS_TO_S;
       max_time[2] = pcl::GetCloudMaxTimeNs(lidar_raw_cloud) * NS_TO_S;
-      LOG(INFO) << "[surf | corn | raw | max] " << max_time[0] << " " << max_time[1] << " " << max_time[2] << " " << lidar_max_timestamp * NS_TO_S;
+      // LOG(INFO) << "[surf | corn | raw | max] " << max_time[0] << " " << max_time[1] << " " << max_time[2] << " " << lidar_max_timestamp * NS_TO_S;
       for (int i = 0; i < 3; i++)
       {
         if ((max_time[i] - lidar_max_timestamp * NS_TO_S) > 1e-6)
@@ -245,7 +245,7 @@ namespace cocolic
       double delta_time = ros_bag_time - msg_time;
       if (delta_time < 0.08)
       {
-        LOG(INFO) << "[CheckLidarMsgTimestamp] Delta Time : " << delta_time;
+        // LOG(INFO) << "[CheckLidarMsgTimestamp] Delta Time : " << delta_time;
       }
     }
 

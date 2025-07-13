@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ namespace cocolic
       int gyro_density = -1, acce_density = -1;
 
       acce_norm = std::abs(acce_norm - gravity_norm_);
-      LOG(INFO) << "[acce_norm] " << acce_norm;
+      // LOG(INFO) << "[acce_norm] " << acce_norm;
       if (acce_norm < 0.5)
       { // [0, 0.5)
         acce_density = KnotDensity::gear1;
@@ -85,7 +85,7 @@ namespace cocolic
         acce_density = KnotDensity::gear4;
       }
 
-      LOG(INFO) << "[gyro_norm] " << gyro_norm;
+      // LOG(INFO) << "[gyro_norm] " << gyro_norm;
       if (gyro_norm < 0.5)
       { // [0, 0.5)
         gyro_density = KnotDensity::gear1;

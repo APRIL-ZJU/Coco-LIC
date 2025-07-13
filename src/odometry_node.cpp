@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,9 @@ int main(int argc, char **argv) {
 
   YAML::Node config_node = YAML::LoadFile(config_path);
 
-  std::string log_path = config_node["log_path"].as<std::string>();
-  FLAGS_log_dir = log_path;
-  FLAGS_colorlogtostderr = true;
+  // std::string log_path = config_node["log_path"].as<std::string>();
+  // FLAGS_log_dir = log_path;
+  // FLAGS_colorlogtostderr = true;
   std::cout << "\n🥥 Start Coco-LIC Odometry 🥥";
 
   OdometryManager odom_manager(config_node, nh);

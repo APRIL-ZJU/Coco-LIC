@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,7 @@ void Trajectory::UndistortScan(const PosCloud &scan_raw,
   for (auto const &raw_p : scan_raw.points) {
     if (std::isnan(raw_p.x)) {
       scan_in_target.is_dense = false;
-      LOG(WARNING) << "[UndistortScan] input cloud exists NAN point";
+      // LOG(WARNING) << "[UndistortScan] input cloud exists NAN point";
       continue;
     }
     SE3d pose_Lk_to_G = GetLidarPoseNURBS(raw_p.timestamp, start_idx);  // TG_LK
@@ -128,7 +128,7 @@ void Trajectory::UndistortScanInG(const PosCloud &scan_raw,
   for (auto const &raw_p : scan_raw.points) {
     if (std::isnan(raw_p.x)) {
       scan_in_target.is_dense = false;
-      LOG(WARNING) << "[UndistortScanInG] input cloud exists NAN point";
+      // LOG(WARNING) << "[UndistortScanInG] input cloud exists NAN point";
       continue;
     }
     SE3d pose_Lk_to_G = GetLidarPoseNURBS(raw_p.timestamp, start_idx);  // TG_LK

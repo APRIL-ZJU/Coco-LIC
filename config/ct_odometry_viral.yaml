@@ -1,6 +1,5 @@
 odometry_mode: 1  # LIO = 0, LICO = 1
 
-log_path: /home/jerry/log
 config_path: /home/jerry/catkin_ws/src/Coco-LIC/config
 lidar_yaml: /viral/lidar.yaml
 imu_yaml: /viral/imu.yaml

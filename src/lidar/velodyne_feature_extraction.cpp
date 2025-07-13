@@ -1,5 +1,5 @@
 /*
- * Coco-LIC: Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
+ * Coco-LIC: Continuous-Time Tightly-Coupled LiDAR-Inertial-Camera Odometry using Non-Uniform B-spline
  * Copyright (C) 2023 Xiaolei Lang
  *
  * This program is free software: you can redistribute it and/or modify
@@ -156,12 +156,12 @@ namespace cocolic
 
       check_field_passed = has_ring_field && (has_time_field || has_t_field || has_timestamp_field);
 
-      if (!has_ring_field)
-        LOG(WARNING) << "[ParsePointCloud] input cloud NOT has [ring] field";
+      // if (!has_ring_field)
+      //   LOG(WARNING) << "[ParsePointCloud] input cloud NOT has [ring] field";
 
-      if (!has_time_field && !has_t_field && !has_timestamp_field)
-        LOG(WARNING)
-            << "[ParsePointCloud] input cloud NOT has [time] or [t] or [timestamp] field";
+      // if (!has_time_field && !has_t_field && !has_timestamp_field)
+      //   LOG(WARNING)
+      //       << "[ParsePointCloud] input cloud NOT has [time] or [t] or [timestamp] field";
     }
 
     /// convert cloud
