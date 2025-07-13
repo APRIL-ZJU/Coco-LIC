@@ -1,10 +1,6 @@
 %YAML:1.0
 
-# be cautious that whether the rosmsg of the image is compressed
-if_compressed: false
-image_topic: /camera/image_color
-# if_compressed: true
-# image_topic: /camera/image_color/compressed
+image_topic: /camera/image_color  # suffix "compressed" omitted
 
 image_width: 640 
 image_height: 512 

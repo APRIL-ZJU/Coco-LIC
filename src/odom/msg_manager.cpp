@@ -57,7 +57,6 @@ namespace cocolic
 
     std::string cam_yaml = node["camera_yaml"].as<std::string>();
     YAML::Node cam_node = YAML::LoadFile(config_path + cam_yaml);
-    if_compressed_ = cam_node["if_compressed"].as<bool>();
 
     // add_extra_timeoffset_s_ =
     //     yaml::GetValue<double>(node, "add_extra_timeoffset_s", 0);
@@ -72,6 +71,7 @@ namespace cocolic
       std::string cam_yaml = config_path + node["camera_yaml"].as<std::string>();
       YAML::Node cam_node = YAML::LoadFile(cam_yaml);
       image_topic_ = cam_node["image_topic"].as<std::string>();
+      image_topic_compressed_ = std::string(image_topic_).append("/compressed");
 
       pub_img_ = nh.advertise<sensor_msgs::Image>("/vio/test_img", 1000);
     }
@@ -140,7 +140,10 @@ namespace cocolic
     std::vector<std::string> topics;
     topics.push_back(imu_topic_); // imu
     if (use_image_)               // camera
+    {
       topics.push_back(image_topic_);
+      topics.push_back(image_topic_compressed_);
+    }
     for (auto &v : lidar_topics_) // lidar
       topics.push_back(v);
     // topics.push_back(pose_topic_);
@@ -211,14 +214,14 @@ namespace cocolic
         LivoxMsgHandle(lidar_msg, idx);
       }
     }
-    else if (msg_topic == image_topic_)  // camera
+    else if (msg_topic == image_topic_ || msg_topic == image_topic_compressed_)  // camera
     {
-      if (if_compressed_)
+      if (m.getDataType() == "sensor_msgs/CompressedImage")
       {
         sensor_msgs::CompressedImageConstPtr image_msg = m.instantiate<sensor_msgs::CompressedImage>();
         ImageMsgHandle(image_msg);
       }
-      else
+      else if (m.getDataType() == "sensor_msgs/Image")
       {
         sensor_msgs::ImageConstPtr image_msg = m.instantiate<sensor_msgs::Image>();
         ImageMsgHandle(image_msg);

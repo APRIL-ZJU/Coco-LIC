@@ -319,13 +319,12 @@ namespace cocolic
     bool lidar_timestamp_end_;
     bool remove_wrong_time_imu_;
     bool if_normalized_;
-    bool if_compressed_;
 
     std::string imu_topic_;
     int num_lidars_;
     std::vector<LiDARType> lidar_types;
     std::vector<std::string> lidar_topics_;
-    std::string image_topic_;
+    std::string image_topic_, image_topic_compressed_;
 
     // std::string pose_topic_;
 

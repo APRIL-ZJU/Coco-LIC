@@ -1,7 +1,5 @@
 %YAML:1.0
 
-# be cautious that whether the rosmsg of the image is compressed
-if_compressed: false
 image_topic: /left/image_raw
 
 image_width: 752 
