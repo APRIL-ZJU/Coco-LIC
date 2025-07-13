@@ -27,43 +27,41 @@ The following are three main characters of 🥥 Coco-LIC [[`Paper`](https://arxi
 ## Install
 
 ```shell
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/src
+mkdir -p ~/catkin_coco/src
+cd ~/catkin_coco/src
 git clone https://github.com/Livox-SDK/livox_ros_driver.git
-cd ~/catkin_ws && catkin_make
-cd ~/catkin_ws/src
+cd ~/catkin_coco && catkin_make
+cd ~/catkin_coco/src
 git clone https://github.com/APRIL-ZJU/Coco-LIC.git
-cd ~/catkin_ws && catkin_make
-source ~/catkin_ws/devel/setup.bash
-cd ~/catkin_ws/src/Coco-LIC && mkdir data
+cd ~/catkin_coco && catkin_make
+
+cd ~/catkin_coco/src/Coco-LIC && mkdir data
 ```
 
 ## Run
 
 + Download [R3LIVE dataset](https://github.com/ziv-lin/r3live_dataset) or [FAST-LIVO dataset](https://connecthkuhk-my.sharepoint.com/personal/zhengcr_connect_hku_hk/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fzhengcr%5Fconnect%5Fhku%5Fhk%2FDocuments%2FFAST%2DLIVO%2DDatasets&ga=1) or [NTU-VIRAL dataset](https://ntu-aris.github.io/ntu_viral_dataset/) or [LVI-SAM dataset](https://drive.google.com/drive/folders/1q2NZnsgNmezFemoxhHnrDnp1JV_bqrgV).
 
-+ Configure parameters in the `config/ct_odometry_xxx.yaml` file.
++ Modify `bag_path` in the `config/ct_odometry_xxx.yaml` file.
 
-  - `config_path`: the path of `config` folder 
-  - `bag_path`: the file path of rosbag  
-  
 + Run on R3LIVE dataset for example.
 
   ```shell
+  cd ~/catkin_coco && source devel/setup.bash
   roslaunch cocolic odometry.launch config_path:=config/ct_odometry_r3live.yaml
   ```
-
-  The estimated trajectory is saved in the folder `./src/Coco-LIC/data`.
+  
+  The estimated IMU trajectory will be saved in the folder `./src/Coco-LIC/data`.
 
 ## Supplementary1 - non-uniform verification
 
 1 control point per 0.1 seconds 🥊 adaptively placing control points per 0.1 seconds.
 
-<img src="figure/uni-vs-nonuni.png" width="60%" height="60%" /> 
+<img src="figure/uni-vs-nonuni.png" alt="uni-vs-nonuni" width="620"> 
 
 The different colors of the trajectory correspond to different densities of control points.
 
- <img src="figure/color-traj.png" width="60%" height="60%" />
+<img src="figure/color-traj.png" alt="color-traj" width="620"> 
 
 ## Supplementary2 - comparison on NTU-VIRAL
 

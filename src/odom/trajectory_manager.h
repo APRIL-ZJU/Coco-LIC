@@ -80,7 +80,7 @@ namespace cocolic
 
     typedef std::shared_ptr<TrajectoryManager> Ptr;
 
-    TrajectoryManager(const YAML::Node &node, Trajectory::Ptr trajectory);
+    TrajectoryManager(const YAML::Node &node, const std::string &config_path, Trajectory::Ptr trajectory);
 
     double opt_min_t;
     int64_t opt_min_t_ns;

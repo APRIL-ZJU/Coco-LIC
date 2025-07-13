@@ -1,11 +1,14 @@
 odometry_mode: 1  # LIO = 0, LICO = 1
 
-config_path: /home/jerry/catkin_ws/src/Coco-LIC/config
 lidar_yaml: /r3live/lidar.yaml
 imu_yaml: /r3live/imu.yaml
 camera_yaml: /r3live/camera.yaml
 
-bag_path: /home/jerry/dataset/degenerate_seq_00.bag  # degenerate_seq_01.bag、degenerate_seq_02.bag、hku_campus_seq_00.bag
+# degenerate_seq_00.bag
+# degenerate_seq_01.bag
+# degenerate_seq_02.bag
+# hku_campus_seq_00.bag
+bag_path: xxx.bag
 bag_start: 0.
 bag_durr: -1
 

@@ -28,6 +28,7 @@ namespace cocolic
 {
 
   TrajectoryManager::TrajectoryManager(const YAML::Node &node,
+                                       const std::string &config_path,
                                        Trajectory::Ptr trajectory)
       : verbose(false),
         cur_img_time_(-1),
@@ -37,7 +38,6 @@ namespace cocolic
         lidar_marg_info(nullptr),
         cam_marg_info(nullptr)
   {
-    std::string config_path = node["config_path"].as<std::string>();
     std::string imu_yaml = node["imu_yaml"].as<std::string>();
     YAML::Node imu_node = YAML::LoadFile(config_path + imu_yaml);
     imu_state_estimator_ = std::make_shared<ImuStateEstimator>(imu_node);

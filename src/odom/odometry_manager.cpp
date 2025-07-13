@@ -34,7 +34,9 @@ namespace cocolic
   OdometryManager::OdometryManager(const YAML::Node &node, ros::NodeHandle &nh)
       : odometry_mode_(LIO), is_initialized_(false)
   {
-    std::string config_path = node["config_path"].as<std::string>();
+    std::string config_path;
+    nh.param<std::string>("project_path", config_path, "");
+    config_path += "/config";
 
     std::string lidar_yaml = node["lidar_yaml"].as<std::string>();
     YAML::Node lidar_node = YAML::LoadFile(config_path + lidar_yaml);
@@ -101,7 +103,7 @@ namespace cocolic
         0.0, 0.0, 1.0;
 
     // trajectory parameterized by b-spline
-    trajectory_manager_ = std::make_shared<TrajectoryManager>(node, trajectory_);
+    trajectory_manager_ = std::make_shared<TrajectoryManager>(node, config_path, trajectory_);
     trajectory_manager_->use_lidar_scale = use_lidar_scale_;
     trajectory_manager_->SetIntrinsic(K_);
 
@@ -111,7 +113,7 @@ namespace cocolic
 
     odom_viewer_.SetPublisher(nh);
 
-    msg_manager_ = std::make_shared<MsgManager>(node, nh);  // load rosbag
+    msg_manager_ = std::make_shared<MsgManager>(node, config_path, nh);  // load rosbag
 
     bool verbose;
     nh.param<double>("pasue_time", pasue_time_, -1);

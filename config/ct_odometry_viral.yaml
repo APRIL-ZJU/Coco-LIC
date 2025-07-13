@@ -1,11 +1,19 @@
 odometry_mode: 1  # LIO = 0, LICO = 1
 
-config_path: /home/jerry/catkin_ws/src/Coco-LIC/config
 lidar_yaml: /viral/lidar.yaml
 imu_yaml: /viral/imu.yaml
 camera_yaml: /viral/camera.yaml
 
-bag_path: /home/jerry/dataset/eee_01.bag  # eee_xx.bag、nya_xx.bag、sbs_xx.bag
+# eee_01.bag
+# eee_02.bag
+# eee_03.bag
+# nya_01.bag
+# nya_02.bag
+# nya_03.bag
+# sbs_01.bag
+# sbs_02.bag
+# sbs_03.bag
+bag_path: xxx.bag
 bag_start: 0.
 bag_durr: -1
 

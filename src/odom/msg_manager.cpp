@@ -24,7 +24,7 @@
 namespace cocolic
 {
 
-  MsgManager::MsgManager(const YAML::Node &node, ros::NodeHandle &nh)
+  MsgManager::MsgManager(const YAML::Node &node, const std::string &config_path, ros::NodeHandle &nh)
       : has_valid_msg_(true),
         t_offset_imu_(0),
         t_offset_camera_(0),
@@ -36,8 +36,6 @@ namespace cocolic
         if_normalized_(false),
         image_topic_("")
   {
-    std::string config_path = node["config_path"].as<std::string>();
-
     OdometryMode odom_mode = OdometryMode(node["odometry_mode"].as<int>());
 
     nh.param<std::string>("bag_path", bag_path_, "");

@@ -196,7 +196,7 @@ namespace cocolic
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     typedef std::shared_ptr<MsgManager> Ptr;
 
-    MsgManager(const YAML::Node &node, ros::NodeHandle &nh);
+    MsgManager(const YAML::Node &node, const std::string &config_path, ros::NodeHandle &nh);
 
     // 
     void SpinBagOnce();
